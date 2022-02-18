@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "github>Project-Cepi/openvate"
+  ]
+}

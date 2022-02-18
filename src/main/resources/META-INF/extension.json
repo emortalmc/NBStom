@@ -1,0 +1,5 @@
+{
+  "entrypoint": "${project.group}.${project.mainClass}",
+  "name": "${project.name}",
+  "version": "${project.version}"
+}
