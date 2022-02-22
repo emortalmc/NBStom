@@ -1,6 +1,5 @@
-package dev.emortal.pathfinder
+package dev.emortal.nbstom
 
-import dev.emortal.nbstom.*
 import net.minestom.server.entity.Player
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
