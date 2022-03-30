@@ -1,47 +1,74 @@
 package dev.emortal.nbstom
 
-import net.minestom.server.MinecraftServer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.Duration
-import java.util.*
-import kotlin.concurrent.scheduleAtFixedRate
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
 
-abstract class MinestomRunnable(val delay: Duration = Duration.ZERO, val repeat: Duration = Duration.ZERO, var iterations: Int = -1, timer: Timer = defaultTimer) {
+/**
+ * Creates a task using Java's scheduler instead of Minestom's
+ * Allows for more accuracy, and appears to run faster
+ *
+ * @param delay How long to delay the task from running
+ * @param repeat How long between intervals of running
+ * @param iterations How many times to iterate, -1 being infinite (also default)
+ * @param coroutineScope The coroutine scope to use, should be set to the game's scope if created inside a game as the tasks will be automatically cancelled on end, use GlobalScope otherwise
+ */
+internal abstract class MinestomRunnable(
+    var delay: Duration = Duration.ZERO,
+    var repeat: Duration = Duration.ZERO,
+    var iterations: Int = -1,
+    val coroutineScope: CoroutineScope
+) {
 
-    companion object {
-        val defaultTimer = Timer()
+    abstract suspend fun run()
+
+    private val keepRunning = AtomicBoolean(true)
+    private var job: Job? = null
+    private val tryRun = suspend {
+        try {
+            run()
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
     }
 
-    private var task: TimerTask? = null
+    var currentIteration = AtomicInteger(0)
 
     init {
 
-        if (iterations < 2 && delay.toMillis() == 0L && repeat.toMillis() == 0L) {
-            this@MinestomRunnable.run()
-            this@MinestomRunnable.cancel()
-        } else {
-            task = timer.scheduleAtFixedRate(delay.toMillis(), repeat.toMillis()) {
-                if (iterations != -1 && currentIteration >= iterations) {
-                    this@MinestomRunnable.cancel()
-                    cancelled()
-                    return@scheduleAtFixedRate
+        job = coroutineScope.launch {
+            delay(delay.toMillis())
+            if (repeat.toMillis() != 0L) {
+                while (keepRunning.get()) {
+                    val currentIter = currentIteration.incrementAndGet()
+                    if (iterations != -1 && currentIter >= iterations) {
+                        cancel()
+                        return@launch
+                    }
+                    tryRun()
+                    delay(repeat.toMillis())
                 }
-
-                try {
-
-                    this@MinestomRunnable.run()
-                } catch (e: Exception) {
-                    MinecraftServer.getExceptionManager().handleException(e)
+            } else {
+                if (keepRunning.get()) {
+                    tryRun()
                 }
-                currentIteration++
             }
         }
     }
-    var currentIteration = 0
 
-    abstract fun run()
     open fun cancelled() {}
 
     fun cancel() {
-        task?.cancel()
+        keepRunning.set(false)
+        cancelled()
+    }
+
+    fun cancelImmediate() {
+        cancel()
+        job?.cancel()
     }
 }

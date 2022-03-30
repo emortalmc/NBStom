@@ -1,5 +1,7 @@
 package dev.emortal.nbstom
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import net.minestom.server.entity.Player
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -104,7 +106,7 @@ class NBS(path: Path) {
     companion object {
         private val playingTasks = mutableMapOf<Player, MinestomRunnable>()
 
-        private val timer = Timer()
+        private val scope = CoroutineScope(Dispatchers.IO)
 
         /**
          * Stops playing the song to a player
@@ -121,9 +123,9 @@ class NBS(path: Path) {
          * @param player The player to play the song to
          */
         fun play(song: NBS, player: Player) {
-            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, timer = timer) {
-                override fun run() {
-                    val nbstick = song.ticks[currentIteration]
+            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, coroutineScope = scope) {
+                override suspend fun run() {
+                    val nbstick = song.ticks[currentIteration.get()]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
                         player.playSound(sound)
