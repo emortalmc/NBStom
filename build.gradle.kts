@@ -22,7 +22,7 @@ dependencies {
     //compileOnly(kotlin("stdlib"))
 
     compileOnly("com.github.Minestom:Minestom:338ffb80db")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
     //compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 }
 
