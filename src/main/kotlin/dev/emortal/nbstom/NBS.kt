@@ -2,6 +2,7 @@ package dev.emortal.nbstom
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import net.kyori.adventure.sound.Sound
 import net.minestom.server.entity.Player
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -128,7 +129,7 @@ class NBS(path: Path) {
                     val nbstick = song.ticks[currentIteration.get()]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
-                        player.playSound(sound)
+                        player.playSound(sound, Sound.Emitter.self())
                     }
                 }
 
