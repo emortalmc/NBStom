@@ -124,9 +124,9 @@ class NBS(path: Path) {
          * @param player The player to play the song to
          */
         fun play(song: NBS, player: Player) {
-            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, coroutineScope = scope) {
+            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length, coroutineScope = scope) {
                 override suspend fun run() {
-                    val nbstick = song.ticks[currentIteration.get()]
+                    val nbstick = song.ticks[currentIteration.get() - 1]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
                         player.playSound(sound, Sound.Emitter.self())
