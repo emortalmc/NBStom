@@ -72,8 +72,6 @@ class NBS(path: Path) {
         maxLoopCount = buffer.get()
         loopStartTick = buffer.unsignedShort
 
-        println(layerCount)
-
         ticks = readNotes(buffer)
     }
 
