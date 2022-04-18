@@ -4,11 +4,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import net.kyori.adventure.sound.Sound
 import net.minestom.server.entity.Player
+import net.minestom.server.particle.Particle
+import net.minestom.server.particle.ParticleCreator
+import net.minestom.server.utils.PacketUtils
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.file.Path
 import java.time.Duration
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ThreadLocalRandom
 import kotlin.io.path.readBytes
 
 /**
@@ -105,7 +110,7 @@ class NBS(path: Path) {
 
 
     companion object {
-        private val playingTasks = mutableMapOf<Player, MinestomRunnable>()
+        private val playingTasks = ConcurrentHashMap<Player, MinestomRunnable>()
 
         private val scope = CoroutineScope(Dispatchers.IO)
 
@@ -130,6 +135,37 @@ class NBS(path: Path) {
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
                         player.playSound(sound, Sound.Emitter.self())
+                    }
+                }
+
+            }
+
+            playingTasks[player] = task
+        }
+
+        /**
+         * Play the song to a player
+         * @param song The song to play
+         * @param player The player to play the song to
+         */
+        fun playWithParticles(song: NBS, player: Player, viewersToo: Boolean = true) {
+            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length, coroutineScope = scope) {
+                val rand = ThreadLocalRandom.current()
+
+                override suspend fun run() {
+                    val nbstick = song.ticks[currentIteration.get() - 1]
+                    nbstick?.notes?.forEach {
+                        val sound = NBSNote.toSound(it)
+                        player.playSound(sound, Sound.Emitter.self())
+
+                        val useCount = it.key - 33
+                        val particlePacket = ParticleCreator.createParticlePacket(Particle.NOTE, player.position.x + rand.nextDouble(-0.4, 0.4), player.position.y + 1.5 + rand.nextDouble(0.0, 0.2), player.position.z + rand.nextDouble(-0.4, 0.4), useCount / 24f, 0f, 0f, 1)
+
+                        if (viewersToo) {
+                            player.sendPacketToViewersAndSelf(particlePacket)
+                        } else {
+                            player.sendPacket(particlePacket)
+                        }
                     }
                 }
 
