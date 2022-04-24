@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import net.kyori.adventure.sound.Sound
 import net.minestom.server.entity.Player
+import net.minestom.server.event.EventDispatcher
 import net.minestom.server.particle.Particle
 import net.minestom.server.particle.ParticleCreator
 import net.minestom.server.utils.PacketUtils
@@ -72,6 +73,8 @@ class NBS(path: Path) {
         maxLoopCount = buffer.get()
         loopStartTick = buffer.unsignedShort
 
+        println(length)
+
         ticks = readNotes(buffer)
     }
 
@@ -127,13 +130,18 @@ class NBS(path: Path) {
          * @param player The player to play the song to
          */
         fun play(song: NBS, player: Player) {
-            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length, coroutineScope = scope) {
+            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, coroutineScope = scope) {
                 override suspend fun run() {
                     val nbstick = song.ticks[currentIteration.get() - 1]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
                         player.playSound(sound, Sound.Emitter.self())
                     }
+                }
+
+                override fun cancelled() {
+                    playingTasks.remove(player)
+                    EventDispatcher.call(SongEndEvent(player))
                 }
 
             }
@@ -147,17 +155,17 @@ class NBS(path: Path) {
          * @param player The player to play the song to
          */
         fun playWithParticles(song: NBS, player: Player, viewersToo: Boolean = true) {
-            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length, coroutineScope = scope) {
+            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, coroutineScope = scope) {
                 val rand = ThreadLocalRandom.current()
 
                 override suspend fun run() {
-                    val nbstick = song.ticks[currentIteration.get() - 1]
+                    val nbstick = song.ticks[currentIteration.get()]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
                         player.playSound(sound, Sound.Emitter.self())
 
                         val useCount = it.key - 33
-                        val particlePacket = ParticleCreator.createParticlePacket(Particle.NOTE, player.position.x + rand.nextDouble(-0.4, 0.4), player.position.y + 1.5 + rand.nextDouble(0.0, 0.2), player.position.z + rand.nextDouble(-0.4, 0.4), useCount / 24f, 0f, 0f, 1)
+                        val particlePacket = ParticleCreator.createParticlePacket(Particle.NOTE, true, player.position.x + rand.nextDouble(-0.65, 0.65), player.position.y + 1.8 + rand.nextDouble(0.0, 0.3), player.position.z + rand.nextDouble(-0.65, 0.65), useCount / 24f, 0f, 0f, 1f, 0, null)
 
                         if (viewersToo) {
                             player.sendPacketToViewersAndSelf(particlePacket)
@@ -165,6 +173,11 @@ class NBS(path: Path) {
                             player.sendPacket(particlePacket)
                         }
                     }
+                }
+
+                override fun cancelled() {
+                    playingTasks.remove(player)
+                    EventDispatcher.call(SongEndEvent(player))
                 }
 
             }

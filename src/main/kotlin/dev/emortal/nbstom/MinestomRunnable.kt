@@ -44,13 +44,13 @@ internal abstract class MinestomRunnable(
             delay(delay.toMillis())
             if (repeat.toMillis() != 0L) {
                 while (keepRunning.get()) {
+                    tryRun()
+                    delay(repeat.toMillis())
                     val currentIter = currentIteration.incrementAndGet()
                     if (iterations != -1 && currentIter >= iterations) {
                         cancel()
                         return@launch
                     }
-                    tryRun()
-                    delay(repeat.toMillis())
                 }
             } else {
                 if (keepRunning.get()) {
