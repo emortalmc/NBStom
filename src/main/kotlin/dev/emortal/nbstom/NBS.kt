@@ -141,7 +141,7 @@ class NBS(path: Path) {
 
                 override fun cancelled() {
                     playingTasks.remove(player)
-                    EventDispatcher.call(SongEndEvent(player))
+                    EventDispatcher.call(SongEndEvent(player, song))
                 }
 
             }
@@ -177,7 +177,7 @@ class NBS(path: Path) {
 
                 override fun cancelled() {
                     playingTasks.remove(player)
-                    EventDispatcher.call(SongEndEvent(player))
+                    EventDispatcher.call(SongEndEvent(player, song))
                 }
 
             }
