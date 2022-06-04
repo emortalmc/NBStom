@@ -48,7 +48,7 @@ internal abstract class MinestomRunnable(
                     delay(repeat.toMillis())
                     val currentIter = currentIteration.incrementAndGet()
                     if (iterations != -1 && currentIter >= iterations) {
-                        cancel()
+                        cancelImmediate()
                         return@launch
                     }
                 }

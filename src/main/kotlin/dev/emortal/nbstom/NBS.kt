@@ -53,7 +53,7 @@ class NBS(path: Path) {
         buffer.unsignedShort
         version = buffer.get()
         instrumentCount = buffer.get()
-        length = buffer.unsignedShort
+        length = buffer.unsignedShort + 1
         layerCount = buffer.unsignedShort
         songName = buffer.getNBSString()
         author = buffer.getNBSString()
@@ -132,7 +132,7 @@ class NBS(path: Path) {
         fun play(song: NBS, player: Player) {
             val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, coroutineScope = scope) {
                 override suspend fun run() {
-                    val nbstick = song.ticks[currentIteration.get() - 1]
+                    val nbstick = song.ticks[currentIteration.get()]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
                         player.playSound(sound, Sound.Emitter.self())
@@ -165,7 +165,7 @@ class NBS(path: Path) {
                         player.playSound(sound, Sound.Emitter.self())
 
                         val useCount = it.key - 33
-                        val particlePacket = ParticleCreator.createParticlePacket(Particle.NOTE, true, player.position.x + rand.nextDouble(-0.65, 0.65), player.position.y + 1.8 + rand.nextDouble(0.0, 0.3), player.position.z + rand.nextDouble(-0.65, 0.65), useCount / 24f, 0f, 0f, 1f, 0, null)
+                        val particlePacket = ParticleCreator.createParticlePacket(Particle.NOTE, false, player.position.x + (rand?.nextDouble(-0.65, 0.65) ?: 0.0), player.position.y + 1.8 + (rand?.nextDouble(0.0, 0.3) ?: 0.0), player.position.z + (rand?.nextDouble(-0.65, 0.65) ?: 0.0), useCount / 24f, 0f, 0f, 1f, 0, null)
 
                         if (viewersToo) {
                             player.sendPacketToViewersAndSelf(particlePacket)
