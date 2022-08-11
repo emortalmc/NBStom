@@ -7,7 +7,6 @@ import net.minestom.server.entity.Player
 import net.minestom.server.event.EventDispatcher
 import net.minestom.server.particle.Particle
 import net.minestom.server.particle.ParticleCreator
-import net.minestom.server.utils.PacketUtils
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.file.Path
@@ -111,7 +110,7 @@ class NBS(path: Path) {
 
 
     companion object {
-        private val playingTasks = ConcurrentHashMap<Player, MinestomRunnable>()
+        private val playingTasks = ConcurrentHashMap<UUID, MinestomRunnable>()
 
         private val scope = CoroutineScope(Dispatchers.IO)
 
@@ -120,8 +119,8 @@ class NBS(path: Path) {
          * @param player The player to stop playing to
          */
         fun stopPlaying(player: Player) {
-            playingTasks[player]?.cancel()
-            playingTasks.remove(player)
+            playingTasks[player.uuid]?.cancel()
+            playingTasks.remove(player.uuid)
         }
 
         /**
@@ -140,13 +139,13 @@ class NBS(path: Path) {
                 }
 
                 override fun cancelled() {
-                    playingTasks.remove(player)
+                    playingTasks.remove(player.uuid)
                     EventDispatcher.call(SongEndEvent(player, song))
                 }
 
             }
 
-            playingTasks[player] = task
+            playingTasks[player.uuid] = task
         }
 
         /**
@@ -176,13 +175,13 @@ class NBS(path: Path) {
                 }
 
                 override fun cancelled() {
-                    playingTasks.remove(player)
+                    playingTasks.remove(player.uuid)
                     EventDispatcher.call(SongEndEvent(player, song))
                 }
 
             }
 
-            playingTasks[player] = task
+            playingTasks[player.uuid] = task
         }
     }
 
