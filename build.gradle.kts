@@ -3,7 +3,6 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    //kotlin("plugin.serialization") version "1.6.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     `maven-publish`
 
@@ -11,19 +10,12 @@ plugins {
 }
 
 repositories {
-    // Use mavenCentral
     mavenCentral()
-
     maven(url = "https://jitpack.io")
-    maven(url = "https://repo.spongepowered.org/maven")
 }
 
 dependencies {
-    //compileOnly(kotlin("stdlib"))
-
-    compileOnly("com.github.Minestom:Minestom:338ffb80db")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    //compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    compileOnly("com.github.Minestom:Minestom:b37bef427f")
 }
 
 tasks {

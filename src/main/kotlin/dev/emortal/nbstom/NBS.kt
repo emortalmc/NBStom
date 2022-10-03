@@ -1,7 +1,5 @@
 package dev.emortal.nbstom
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import net.kyori.adventure.sound.Sound
 import net.minestom.server.entity.Player
 import net.minestom.server.event.EventDispatcher
@@ -13,6 +11,7 @@ import java.nio.file.Path
 import java.time.Duration
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.Executors
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.io.path.readBytes
 
@@ -72,8 +71,6 @@ class NBS(path: Path) {
         maxLoopCount = buffer.get()
         loopStartTick = buffer.unsignedShort
 
-        println(length)
-
         ticks = readNotes(buffer)
     }
 
@@ -110,9 +107,9 @@ class NBS(path: Path) {
 
 
     companion object {
-        private val playingTasks = ConcurrentHashMap<UUID, MinestomRunnable>()
+        private val playingTasks = ConcurrentHashMap<UUID, ExecutorRunnable>()
 
-        private val scope = CoroutineScope(Dispatchers.IO)
+        private val executor = Executors.newScheduledThreadPool(1)
 
         /**
          * Stops playing the song to a player
@@ -129,8 +126,8 @@ class NBS(path: Path) {
          * @param player The player to play the song to
          */
         fun play(song: NBS, player: Player) {
-            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, coroutineScope = scope) {
-                override suspend fun run() {
+            val task = object : ExecutorRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, executor = executor) {
+                override fun run() {
                     val nbstick = song.ticks[currentIteration.get()]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
@@ -154,10 +151,10 @@ class NBS(path: Path) {
          * @param player The player to play the song to
          */
         fun playWithParticles(song: NBS, player: Player, viewersToo: Boolean = true) {
-            val task = object : MinestomRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, coroutineScope = scope) {
+            val task = object : ExecutorRunnable(repeat = Duration.ofMillis((1000.0 / song.tps).toLong()), iterations = song.length + 1, executor = executor) {
                 val rand = ThreadLocalRandom.current()
 
-                override suspend fun run() {
+                override fun run() {
                     val nbstick = song.ticks[currentIteration.get()]
                     nbstick?.notes?.forEach {
                         val sound = NBSNote.toSound(it)
