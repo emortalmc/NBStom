@@ -10,7 +10,10 @@ NBS.playWithParticles(song, player)
 NBS.stopPlaying(player)
 
 // NBStom also has /music and /loop commands built in but simply not registered by default.
-// Register them with:
+// Register them individually with:
 MinecraftServer.getCommandManager().register(MusicCommand)
 MinecraftServer.getCommandManager().register(LoopCommand)
+
+// or alternatively
+NBS.registerCommands()
 ```

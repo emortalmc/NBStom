@@ -1,6 +1,7 @@
 package dev.emortal.nbstom
 
 import net.kyori.adventure.sound.Sound
+import net.minestom.server.MinecraftServer
 import net.minestom.server.entity.Player
 import net.minestom.server.event.EventDispatcher
 import net.minestom.server.particle.Particle
@@ -110,6 +111,12 @@ class NBS(path: Path) {
         private val playingTasks = ConcurrentHashMap<UUID, ExecutorRunnable>()
 
         private val executor = Executors.newScheduledThreadPool(1)
+
+        fun registerCommands() {
+            val commandManager = MinecraftServer.getCommandManager()
+            commandManager.register(LoopCommand)
+            commandManager.register(MusicCommand)
+        }
 
         /**
          * Stops playing the song to a player
