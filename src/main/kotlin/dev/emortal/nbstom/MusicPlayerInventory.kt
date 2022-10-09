@@ -12,9 +12,7 @@ import net.minestom.server.item.ItemStack
 import net.minestom.server.item.Material
 
 object MusicPlayerInventory {
-    val inventory = init()
-
-    fun init(): Inventory {
+    val inventory = run {
         //val inventoryTitle = Component.text("\uF808\uE00B", NamedTextColor.WHITE)
         val inventoryTitle = Component.text("Music Discs", NamedTextColor.BLACK)
         val inventory = Inventory(InventoryType.CHEST_6_ROW, inventoryTitle)
@@ -56,17 +54,17 @@ object MusicPlayerInventory {
             if (inventoryConditionResult.clickedItem == ItemStack.AIR) return@addInventoryCondition
 
             if (slot == 40) {
-                MinecraftServer.getCommandManager().execute(player, "disc stop")
+                MinecraftServer.getCommandManager().execute(player, "music stop")
                 return@addInventoryCondition
             }
 
             val nowPlayingDisc = MusicDisc.fromMaterial(inventoryConditionResult.clickedItem.material())
                 ?: return@addInventoryCondition
 
-            MinecraftServer.getCommandManager().execute(player, "disc ${nowPlayingDisc.shortName}")
+            MinecraftServer.getCommandManager().execute(player, "music ${nowPlayingDisc.shortName}")
         }
 
-        return inventory
+        inventory
     }
 
 }

@@ -47,6 +47,8 @@ object MusicCommand : Command("music") {
     }
 
     init {
+        refreshSongs()
+
         // If no arguments given, open inventory
         setDefaultExecutor { sender, _ ->
             val player = sender as? Player ?: return@setDefaultExecutor
@@ -58,7 +60,7 @@ object MusicCommand : Command("music") {
         val refreshArgument = ArgumentLiteral("refresh")
         val stopArgument = ArgumentLiteral("stop")
         val discArgument = ArgumentType.StringArray("disc").setSuggestionCallback { _, context, suggestion ->
-            suggestions.filter { it.contains(context.input) }.forEach {
+            suggestions.forEach {
                 suggestion.addEntry(SuggestionEntry(it))
             }
         }
@@ -79,10 +81,6 @@ object MusicCommand : Command("music") {
             stopPlayingTaskMap.remove(player.uuid)
             NBS.stopPlaying(player)
         }, stopArgument)
-
-        addSyntax({ _, _ ->
-            refreshSongs()
-        }, refreshArgument)
 
         addSyntax({ sender, context ->
             val player = sender as? Player ?: return@addSyntax
@@ -155,5 +153,9 @@ object MusicCommand : Command("music") {
                     .append(Component.text(discName, NamedTextColor.AQUA))
             )
         }, discArgument)
+        addSyntax({ _, _ ->
+            refreshSongs()
+        }, refreshArgument)
+
     }
 }
