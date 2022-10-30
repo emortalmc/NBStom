@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
+    id("org.jetbrains.kotlin.jvm") version "1.7.20"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     `maven-publish`
 
