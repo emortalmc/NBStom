@@ -1,4 +1,4 @@
-package dev.emortal.nbstom
+package dev.emortal.nbstom.commands
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor

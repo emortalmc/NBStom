@@ -1,5 +1,8 @@
-package dev.emortal.nbstom
+package dev.emortal.nbstom.commands
 
+import dev.emortal.nbstom.MusicDisc
+import dev.emortal.nbstom.MusicPlayerInventory
+import dev.emortal.nbstom.NBS
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.sound.SoundStop
 import net.kyori.adventure.text.Component
@@ -110,9 +113,9 @@ object MusicCommand : Command("music") {
                 stopPlayingTaskMap[player.uuid] = player.scheduler().buildTask {
 
                     if (player.hasTag(LoopCommand.loopTag)) {
-                        MinecraftServer.getCommandManager().execute(sender, "disc ${nowPlayingDisc.shortName}")
+                        MinecraftServer.getCommandManager().execute(sender, "music ${nowPlayingDisc.shortName}")
                     } else {
-                        MinecraftServer.getCommandManager().execute(sender, "disc stop")
+                        MinecraftServer.getCommandManager().execute(sender, "music stop")
                     }
 
                 }.delay(Duration.ofSeconds(nowPlayingDisc.length.toLong())).schedule()
@@ -137,9 +140,9 @@ object MusicCommand : Command("music") {
                 stopPlayingTaskMap[player.uuid] = player.scheduler().buildTask {
 
                     if (player.hasTag(LoopCommand.loopTag)) {
-                        MinecraftServer.getCommandManager().execute(sender, "disc ${disc}")
+                        MinecraftServer.getCommandManager().execute(sender, "music ${disc}")
                     } else {
-                        MinecraftServer.getCommandManager().execute(sender, "disc stop")
+                        MinecraftServer.getCommandManager().execute(sender, "music stop")
                     }
 
                 }.delay(Duration.ofSeconds((nbs.length / nbs.tps).roundToLong())).schedule()

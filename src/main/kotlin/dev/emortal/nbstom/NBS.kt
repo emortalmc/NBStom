@@ -1,5 +1,7 @@
 package dev.emortal.nbstom
 
+import dev.emortal.nbstom.commands.LoopCommand
+import dev.emortal.nbstom.commands.MusicCommand
 import net.kyori.adventure.sound.Sound
 import net.minestom.server.MinecraftServer
 import net.minestom.server.entity.Player
@@ -45,6 +47,8 @@ class NBS(path: Path) {
 
     val ticks: Array<NBSTick?>
 
+    val customInstruments: Array<NBSInstrument>
+
     init {
         val bytes = path.readBytes()
         val buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
@@ -73,6 +77,18 @@ class NBS(path: Path) {
         loopStartTick = buffer.unsignedShort
 
         ticks = readNotes(buffer)
+
+        // Layers
+        repeat(layerCount) {
+            buffer.getNBSString()
+            buffer.get()
+            buffer.get()
+            buffer.get()
+        }
+
+        // Custom Instruments
+        val instrumentAmount = buffer.get().toInt()
+        customInstruments = Array(instrumentAmount) { NBSInstrument.readInstrument(buffer) }
     }
 
     private fun readNotes(buffer: ByteBuffer): Array<NBSTick?> {
