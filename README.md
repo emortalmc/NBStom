@@ -2,18 +2,15 @@
 
 ## API
 
-```kotlin
-val song = NBS(Path.of("./gaming.nbs"))
+```java
+NBSSong song = new NBSSong(Path.of("path/to/.nbs"));
 
-NBS.play(song, player)
-NBS.playWithParticles(song, player)
-NBS.stopPlaying(player)
+// for a player
+NBS.play(song, player);
+NBS.stop(player);
 
-// NBStom also has /music and /loop commands built in but simply not registered by default.
-// Register them individually with:
-MinecraftServer.getCommandManager().register(MusicCommand)
-MinecraftServer.getCommandManager().register(LoopCommand)
-
-// or alternatively
-NBS.registerCommands()
+// for an audience
+UUID stopId = UUID.randomUUID();
+NBS.play(song, audience, MinecraftServer.getSchedulerManager(), stopId);
+NBS.stop(stopId)
 ```

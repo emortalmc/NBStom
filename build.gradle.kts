@@ -1,29 +1,22 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.8.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     `maven-publish`
-
     java
 }
 
 repositories {
     mavenCentral()
-    maven(url = "https://jitpack.io")
+    maven("https://jitpack.io")
 }
 
 dependencies {
-    compileOnly("com.github.Minestom:Minestom:b37bef427f")
+//    implementation("com.github.Minestom:Minestom:a9e319f961")
+    compileOnly("com.github.Minestom:Minestom:a9e319f961")
 }
 
 tasks {
-    processResources {
-        filesMatching("extension.json") {
-            expand(project.properties)
-        }
-    }
 
     named<ShadowJar>("shadowJar") {
         archiveBaseName.set(project.name)
@@ -51,11 +44,4 @@ publishing {
             from(components["java"])
         }
     }
-}
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-
-compileKotlin.kotlinOptions {
-    freeCompilerArgs = listOf("-Xinline-classes")
 }

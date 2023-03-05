@@ -1,15 +1,9 @@
-package dev.emortal.nbstom
+package dev.emortal.nbstom;
 
-import net.minestom.server.item.Material
-import net.minestom.server.sound.SoundEvent
+import net.minestom.server.item.Material;
+import net.minestom.server.sound.SoundEvent;
 
-enum class MusicDisc(
-    val material: Material,
-    val sound: SoundEvent,
-    val shortName: String,
-    val description: String,
-    val length: Int
-) {
+public enum MusicDisc {
     MUSIC_DISC_13(Material.MUSIC_DISC_13, SoundEvent.MUSIC_DISC_13, "13", "C418 - 13", 178),
     MUSIC_DISC_CAT(Material.MUSIC_DISC_CAT, SoundEvent.MUSIC_DISC_CAT, "cat", "C418 - cat", 185),
     MUSIC_DISC_BLOCKS(Material.MUSIC_DISC_BLOCKS, SoundEvent.MUSIC_DISC_BLOCKS, "blocks", "C418 - blocks", 345),
@@ -38,22 +32,44 @@ enum class MusicDisc(
     ),
     MUSIC_DISC_5(Material.MUSIC_DISC_5, SoundEvent.MUSIC_DISC_5, "5", "Samuel Åberg - 5", 178);
 
+    final Material material;
+    final SoundEvent sound;
+    final String shortName;
+    final String description;
+    final int length;
+    MusicDisc(Material material, SoundEvent sound, String shortName, String description, int length) {
+        this.material = material;
+        this.sound = sound;
+        this.shortName = shortName;
+        this.description = description;
+        this.length = length;
+    }
 
-    companion object {
-        fun fromMaterial(material: Material): MusicDisc? {
-            return try {
-                valueOf(material.name().split(":")[1].uppercase())
-            } catch (e: IllegalArgumentException) {
-                null
-            }
-        }
+    public Material getMaterial() {
+        return material;
+    }
 
-        fun fromSoundEvent(soundEvent: SoundEvent): MusicDisc? {
-            return try {
-                valueOf(soundEvent.name())
-            } catch (e: IllegalArgumentException) {
-                null
-            }
-        }
+    public SoundEvent getSound() {
+        return sound;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public static MusicDisc fromMaterial(Material material) {
+        return valueOf(material.name().split(":")[1].toUpperCase());
+    }
+
+    public static MusicDisc fromSoundEvent(SoundEvent soundEvent) {
+        return valueOf(soundEvent.name());
     }
 }
