@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-//    implementation("com.github.Minestom:Minestom:a9e319f961")
-    compileOnly("com.github.Minestom:Minestom:a9e319f961")
+//    implementation("com.github.Minestom:Minestom:8ad2c7701f")
+    compileOnly("com.github.Minestom:Minestom:8ad2c7701f")
 }
 
 tasks {
