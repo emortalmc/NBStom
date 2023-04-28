@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Minestom:Minestom:8ad2c7701f")
-//    compileOnly("com.github.Minestom:Minestom:8ad2c7701f")
+//    implementation("com.github.Minestom:Minestom:8ad2c7701f")
+    compileOnly("com.github.Minestom:Minestom:8ad2c7701f")
     testImplementation("com.github.Minestom:Minestom:8ad2c7701f")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
