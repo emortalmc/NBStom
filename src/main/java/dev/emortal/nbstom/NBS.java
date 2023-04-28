@@ -41,7 +41,7 @@ public class NBS {
 
             @Override
             public TaskSchedule get() {
-                if (tick >= song.getTicks().size()) {
+                if (tick > song.getLength() + 1) {
                     return TaskSchedule.stop();
                 }
 

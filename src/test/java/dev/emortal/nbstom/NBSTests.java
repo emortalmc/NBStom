@@ -25,6 +25,7 @@ public class NBSTests {
         assertEquals(testSong.getTps(), 10.0);
         assertEquals(testSong.getVersion(), 5);
         assertEquals(testSong.getLayerCount(), 23);
+        assertEquals(testSong.getLength(), 12);
 
         UUID uuid = UUID.randomUUID();
         NBS.play(testSong, Audience.empty(), env.process().scheduler(), uuid);
