@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public class NBS {
 
-    private static final Map<UUID, Task> playingTaskMap = new ConcurrentHashMap<>();
+    public static final Map<UUID, Task> playingTaskMap = new ConcurrentHashMap<>();
 
     /**
      * Plays this NBS song to an audience

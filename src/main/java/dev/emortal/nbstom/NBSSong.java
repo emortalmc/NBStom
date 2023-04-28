@@ -10,7 +10,9 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NBSSong {
 
@@ -36,7 +38,7 @@ public class NBSSong {
     private final byte maxLoopCount;
     private final int loopStart;
 
-    private final List<List<Sound>> ticks;
+    private final Map<Integer, List<Sound>> ticks;
 
 
     public NBSSong(Path path) throws IOException {
@@ -68,15 +70,18 @@ public class NBSSong {
         this.ticks = getTicks(buffer);
     }
 
-    private List<List<Sound>> getTicks(ByteBuffer buffer) {
-        List<List<Sound>> ticks = new ArrayList<>(length);
+    private Map<Integer, List<Sound>> getTicks(ByteBuffer buffer) {
+        Map<Integer, List<Sound>> ticks = new HashMap<>(length);
+
+        int i = 0;
 
         while (true) {
             int jumps = BufferUtils.getUnsignedShort(buffer);
             if (jumps == 0) break;
+            i += jumps;
 
             List<Sound> tick = getNotes(buffer);
-            ticks.add(tick);
+            ticks.put(i, tick);
         }
 
         return ticks;
@@ -149,7 +154,7 @@ public class NBSSong {
         return loopStart;
     }
 
-    public List<List<Sound>> getTicks() {
+    public Map<Integer, List<Sound>> getTicks() {
         return ticks;
     }
 }

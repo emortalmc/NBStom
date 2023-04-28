@@ -1,5 +1,6 @@
 package dev.emortal.nbstom.types;
 
+import dev.emortal.nbstom.BufferUtils;
 import net.kyori.adventure.sound.Sound;
 import net.minestom.server.sound.SoundEvent;
 
@@ -42,7 +43,7 @@ public class Note {
         byte key = buffer.get();
         byte volume = buffer.get();
         buffer.get(); // pan (ignored)
-        buffer.get(); // pitch (ignored)
+        BufferUtils.getUnsignedShort(buffer); // pitch (ignored)
         return new Note(instrument, key, volume);
     }
 
