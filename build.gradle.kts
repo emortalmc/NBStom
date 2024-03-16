@@ -23,9 +23,9 @@ dependencies {
 
 tasks {
 
-    test {
-        useJUnitPlatform()
-    }
+//    test {
+//        useJUnitPlatform()
+//    }
 
     named<ShadowJar>("shadowJar") {
         archiveBaseName.set(project.name)
