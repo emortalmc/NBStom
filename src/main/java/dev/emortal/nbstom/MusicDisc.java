@@ -16,21 +16,28 @@ public enum MusicDisc {
     MUSIC_DISC_WARD(Material.MUSIC_DISC_WARD, SoundEvent.MUSIC_DISC_WARD, "ward", "C418 - ward", 251),
     MUSIC_DISC_11(Material.MUSIC_DISC_11, SoundEvent.MUSIC_DISC_11, "11", "C418 - 11", 71),
     MUSIC_DISC_WAIT(Material.MUSIC_DISC_WAIT, SoundEvent.MUSIC_DISC_WAIT, "wait", "C418 - wait", 228),
-    MUSIC_DISC_PIGSTEP(
-        Material.MUSIC_DISC_PIGSTEP,
-        SoundEvent.MUSIC_DISC_PIGSTEP,
-        "Pigstep",
-        "Lena Raine - Pigstep",
-        148
-    ),
     MUSIC_DISC_OTHERSIDE(
-        Material.MUSIC_DISC_OTHERSIDE,
-        SoundEvent.MUSIC_DISC_OTHERSIDE,
-        "otherside",
-        "Lena Raine - otherside",
-        195
+            Material.MUSIC_DISC_OTHERSIDE,
+            SoundEvent.MUSIC_DISC_OTHERSIDE,
+            "otherside",
+            "Lena Raine - otherside",
+            195
     ),
-    MUSIC_DISC_5(Material.MUSIC_DISC_5, SoundEvent.MUSIC_DISC_5, "5", "Samuel Åberg - 5", 178);
+    MUSIC_DISC_RELIC(
+            Material.MUSIC_DISC_RELIC,
+            SoundEvent.MUSIC_DISC_RELIC,
+            "Relic",
+            "Aaron Cherof - Relic",
+            219
+    ),
+    MUSIC_DISC_5(Material.MUSIC_DISC_5, SoundEvent.MUSIC_DISC_5, "5", "Samuel Åberg - 5", 178),
+    MUSIC_DISC_PIGSTEP(
+            Material.MUSIC_DISC_PIGSTEP,
+            SoundEvent.MUSIC_DISC_PIGSTEP,
+            "Pigstep",
+            "Lena Raine - Pigstep",
+            148
+    );
 
     final Material material;
     final SoundEvent sound;
