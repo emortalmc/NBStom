@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.8"
     `maven-publish`
     java
 }
@@ -13,19 +13,15 @@ repositories {
 
 dependencies {
 //    implementation("com.github.Minestom:Minestom:8ad2c7701f")
-    compileOnly("net.minestom:minestom-snapshots:7320437640")
-    testImplementation("net.minestom:minestom-snapshots:7320437640")
+    compileOnly("net.minestom:minestom-snapshots:4b31570c9d")
+    testImplementation("net.minestom:minestom-snapshots:4b31570c9d")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.3")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 }
 
 
 tasks {
-
-//    test {
-//        useJUnitPlatform()
-//    }
 
     named<ShadowJar>("shadowJar") {
         archiveBaseName.set(project.name)
@@ -39,7 +35,7 @@ tasks {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 

@@ -3,11 +3,10 @@ package dev.emortal.nbstom.commands;
 import dev.emortal.nbstom.MusicDisc;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
-import net.minestom.server.item.ItemHideFlag;
+import net.minestom.server.item.ItemComponent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 
@@ -31,15 +30,9 @@ public class MusicPlayerInventory {
             if ((i + 1) % 9 == 0) i += 2;
 
             itemStacks[i] = ItemStack.builder(disc.getMaterial())
-                    .displayName(
-                            Component.text(disc.getDescription(), NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false)
-                    )
-                    .meta((meta) -> {
-                        // For some reason the disc author lore requires this hide flag
-                        meta.hideFlag(ItemHideFlag.HIDE_POTION_EFFECTS);
-
-                        if (disc == MusicDisc.MUSIC_DISC_WAIT) meta.lore(Component.text("where are we now", TextColor.color(46, 17, 46)).decoration(TextDecoration.ITALIC, false));
-                    })
+                    .set(ItemComponent.ITEM_NAME, Component.text(disc.getDescription(), NamedTextColor.AQUA))
+                    .set(ItemComponent.HIDE_TOOLTIP)
+                    .set(ItemComponent.HIDE_ADDITIONAL_TOOLTIP)
                     .build();
 
             i++;
@@ -47,10 +40,7 @@ public class MusicPlayerInventory {
 
 
         itemStacks[40] = ItemStack.builder(Material.BARRIER)
-                .displayName(
-                        Component.text("Stop", NamedTextColor.RED, TextDecoration.BOLD)
-                                .decoration(TextDecoration.ITALIC, false)
-                )
+                .set(ItemComponent.ITEM_NAME, Component.text("Stop", NamedTextColor.RED, TextDecoration.BOLD))
                 .build();
 
         inventory.copyContents(itemStacks);
