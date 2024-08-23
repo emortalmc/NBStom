@@ -18,7 +18,6 @@ public class MusicPlayerInventory {
     private final Inventory inventory;
 
     public MusicPlayerInventory() {
-        //val inventoryTitle = Component.text("\uF808\uE00B", NamedTextColor.WHITE)
         Component inventoryTitle = Component.text("Music Discs", NamedTextColor.BLACK);
         Inventory inventory = new Inventory(InventoryType.CHEST_6_ROW, inventoryTitle);
 
@@ -30,8 +29,7 @@ public class MusicPlayerInventory {
             if ((i + 1) % 9 == 0) i += 2;
 
             itemStacks[i] = ItemStack.builder(disc.getMaterial())
-                    .set(ItemComponent.ITEM_NAME, Component.text(disc.getDescription(), NamedTextColor.AQUA))
-                    .set(ItemComponent.HIDE_TOOLTIP)
+                    .set(ItemComponent.ITEM_NAME, Component.text(disc.getDescription(), NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false))
                     .set(ItemComponent.HIDE_ADDITIONAL_TOOLTIP)
                     .build();
 
