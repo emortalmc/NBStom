@@ -4,14 +4,11 @@ import dev.emortal.nbstom.MusicDisc;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.minestom.server.MinecraftServer;
-import net.minestom.server.instance.block.jukebox.JukeboxSong;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemComponent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.minestom.server.registry.DynamicRegistry;
 
 public class MusicPlayerInventory {
 
@@ -21,11 +18,6 @@ public class MusicPlayerInventory {
     public MusicPlayerInventory() {
         Component inventoryTitle = Component.text("Music Discs", NamedTextColor.BLACK);
         Inventory inventory = new Inventory(InventoryType.CHEST_6_ROW, inventoryTitle);
-
-        for (JukeboxSong value : MinecraftServer.getJukeboxSongRegistry().values()) {
-            DynamicRegistry.Key<JukeboxSong> key = MinecraftServer.getJukeboxSongRegistry().getKey(value);
-            System.out.println(key);
-        }
 
         var i = 10;
         for (MusicDisc disc : MusicDisc.values()) {
