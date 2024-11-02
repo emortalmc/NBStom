@@ -10,8 +10,6 @@ import net.minestom.server.item.ItemComponent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 
-import java.util.Arrays;
-
 public class MusicPlayerInventory {
 
     private static MusicPlayerInventory INSTANCE;
@@ -21,28 +19,21 @@ public class MusicPlayerInventory {
         Component inventoryTitle = Component.text("Music Discs", NamedTextColor.BLACK);
         Inventory inventory = new Inventory(InventoryType.CHEST_6_ROW, inventoryTitle);
 
-        ItemStack[] itemStacks = new ItemStack[inventory.getSize()];
-        Arrays.fill(itemStacks, ItemStack.AIR);
-
         var i = 10;
         for (MusicDisc disc : MusicDisc.values()) {
             if ((i + 1) % 9 == 0) i += 2;
 
-            itemStacks[i] = ItemStack.builder(disc.getMaterial())
+            inventory.setItemStack(i, ItemStack.builder(disc.getMaterial())
                     .set(ItemComponent.ITEM_NAME, Component.text(disc.getDescription(), NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false))
                     .set(ItemComponent.HIDE_ADDITIONAL_TOOLTIP)
-                    .build();
+                    .build());
 
             i++;
         }
 
-
-        itemStacks[40] = ItemStack.builder(Material.BARRIER)
+        inventory.setItemStack(40, ItemStack.builder(Material.BARRIER)
                 .set(ItemComponent.ITEM_NAME, Component.text("Stop", NamedTextColor.RED, TextDecoration.BOLD))
-                .build();
-
-        inventory.copyContents(itemStacks);
-
+                .build());
 
         inventory.addInventoryCondition((player, slot, clickType, inventoryConditionResult) -> {
             inventoryConditionResult.setCancel(true);

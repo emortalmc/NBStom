@@ -23,13 +23,6 @@ public enum MusicDisc {
             "Lena Raine - otherside",
             195
     ),
-    MUSIC_DISC_RELIC(
-            Material.MUSIC_DISC_RELIC,
-            SoundEvent.MUSIC_DISC_RELIC,
-            "Relic",
-            "Aaron Cherof - Relic",
-            219
-    ),
     MUSIC_DISC_5(Material.MUSIC_DISC_5, SoundEvent.MUSIC_DISC_5, "5", "Samuel Åberg - 5", 178),
     MUSIC_DISC_PIGSTEP(
             Material.MUSIC_DISC_PIGSTEP,
@@ -37,6 +30,34 @@ public enum MusicDisc {
             "Pigstep",
             "Lena Raine - Pigstep",
             148
+    ),
+    MUSIC_DISC_RELIC(
+            Material.MUSIC_DISC_RELIC,
+            SoundEvent.MUSIC_DISC_RELIC,
+            "Relic",
+            "Aaron Cherof - Relic",
+            219
+    ),
+    MUSIC_DISC_CREATOR(
+            Material.MUSIC_DISC_CREATOR,
+            SoundEvent.MUSIC_DISC_CREATOR,
+            "Creator",
+            "Lena Raine - Creator",
+            176
+    ),
+    MUSIC_DISC_CREATOR_MUSIC_BOX(
+            Material.MUSIC_DISC_CREATOR_MUSIC_BOX,
+            SoundEvent.MUSIC_DISC_CREATOR_MUSIC_BOX,
+            "Creator (Music Box)",
+            "Lena Raine - Creator (Music Box)",
+            73
+    ),
+    MUSIC_DISC_PRECIPICE(
+            Material.MUSIC_DISC_PRECIPICE,
+            SoundEvent.MUSIC_DISC_PRECIPICE,
+            "Precipice",
+            "Aaron Cherof - Precipice",
+            299
     );
 
     final Material material;

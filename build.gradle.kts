@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
 //    implementation("com.github.Minestom:Minestom:8ad2c7701f")
-    compileOnly("net.minestom:minestom-snapshots:461c56e749")
+    compileOnly("net.minestom:minestom-snapshots:c148954a47")
     testImplementation("net.minestom:minestom-snapshots:461c56e749")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
