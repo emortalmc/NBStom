@@ -96,6 +96,13 @@ public enum MusicDisc {
         return length;
     }
 
+    public static @Nullable MusicDisc fromShortName(String shortName) {
+        for (MusicDisc value : VALUES) {
+            if (value.shortName.equalsIgnoreCase(shortName)) return value;
+        }
+        return null;
+    }
+
     public static @Nullable MusicDisc fromMaterial(Material material) {
         for (MusicDisc value : VALUES) {
             if (value.material.key().equals(material.key())) return value;

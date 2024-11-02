@@ -61,7 +61,8 @@ public class MusicCommand extends Command {
 
         stop(sender);
 
-        MusicDisc nowPlayingDisc = MusicDisc.valueOf("MUSIC_DISC_" + disc.toUpperCase());
+
+        MusicDisc nowPlayingDisc = MusicDisc.fromShortName(disc);
 
         String discName = nowPlayingDisc.getDescription();
 
