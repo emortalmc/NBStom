@@ -2,6 +2,7 @@ package dev.emortal.nbstom;
 
 import net.minestom.server.item.Material;
 import net.minestom.server.sound.SoundEvent;
+import org.jetbrains.annotations.Nullable;
 
 public enum MusicDisc {
     MUSIC_DISC_13(Material.MUSIC_DISC_13, SoundEvent.MUSIC_DISC_13, "13", "C418 - 13", 178),
@@ -60,6 +61,8 @@ public enum MusicDisc {
             299
     );
 
+    private static final MusicDisc[] VALUES = values();
+
     final Material material;
     final SoundEvent sound;
     final String shortName;
@@ -93,11 +96,17 @@ public enum MusicDisc {
         return length;
     }
 
-    public static MusicDisc fromMaterial(Material material) {
-        return valueOf(material.name().split(":")[1].toUpperCase());
+    public static @Nullable MusicDisc fromMaterial(Material material) {
+        for (MusicDisc value : VALUES) {
+            if (value.material.key().equals(material.key())) return value;
+        }
+        return null;
     }
 
-    public static MusicDisc fromSoundEvent(SoundEvent soundEvent) {
-        return valueOf(soundEvent.name());
+    public static @Nullable MusicDisc fromSoundEvent(SoundEvent soundEvent) {
+        for (MusicDisc value : VALUES) {
+            if (value.sound.key().equals(soundEvent.key())) return value;
+        }
+        return null;
     }
 }
