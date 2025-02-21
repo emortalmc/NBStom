@@ -16,8 +16,8 @@ dependencies {
     compileOnly("net.minestom:minestom-snapshots:c148954a47")
     testImplementation("net.minestom:minestom-snapshots:461c56e749")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.4")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.12.0")
 }
 
 
