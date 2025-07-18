@@ -24,7 +24,9 @@ public enum MusicDisc {
     MUSIC_DISC_RELIC(Material.MUSIC_DISC_RELIC, SoundEvent.MUSIC_DISC_RELIC, "Relic", "Aaron Cherof - Relic", 219),
     MUSIC_DISC_CREATOR(Material.MUSIC_DISC_CREATOR, SoundEvent.MUSIC_DISC_CREATOR, "Creator", "Lena Raine - Creator", 176),
     MUSIC_DISC_CREATOR_MUSIC_BOX(Material.MUSIC_DISC_CREATOR_MUSIC_BOX, SoundEvent.MUSIC_DISC_CREATOR_MUSIC_BOX, "Creator (Music Box)", "Lena Raine - Creator (Music Box)", 73),
-    MUSIC_DISC_PRECIPICE(Material.MUSIC_DISC_PRECIPICE, SoundEvent.MUSIC_DISC_PRECIPICE, "Precipice", "Aaron Cherof - Precipice", 299);
+    MUSIC_DISC_PRECIPICE(Material.MUSIC_DISC_PRECIPICE, SoundEvent.MUSIC_DISC_PRECIPICE, "Precipice", "Aaron Cherof - Precipice", 299),
+    MUSIC_DISC_TEARS(Material.MUSIC_DISC_TEARS, SoundEvent.MUSIC_DISC_TEARS, "Tears", "Amos Roddy - Tears", 175),
+    MUSIC_DISC_LAVA_CHICKEN(Material.MUSIC_DISC_LAVA_CHICKEN, SoundEvent.MUSIC_DISC_LAVA_CHICKEN, "Lava Chicken", "Hyper Potions - Lava Chicken", 135);
 
     private static final MusicDisc[] VALUES = values();
 
